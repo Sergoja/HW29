@@ -55,17 +55,3 @@ class UserCreateUpdateSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-
-    def is_valid(self, *, raise_exception=False):
-        self._skills = self.initial_data.pop("skills")
-        return super().is_valid(raise_exception=raise_exception)
-
-    def create(self, validated_data):
-        user = User.objects.create(**validated_data)
-
-        for skill in self._skills:
-            skill_object, _ = User.objects.get_or_create(name=skill)
-            user.skills.add(skill_object)
-
-        user.save()
-        return user
