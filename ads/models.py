@@ -24,7 +24,7 @@ class Category(models.Model):
 class Ad(models.Model):
     name = models.CharField(max_length=200, validators=[check_name])
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.PositiveIntegerField()
     image = models.ImageField(upload_to="ad_images", null=True, blank=True)
