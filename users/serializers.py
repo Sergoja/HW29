@@ -2,8 +2,9 @@ from rest_framework import serializers
 from rest_framework.fields import IntegerField
 from rest_framework.relations import SlugRelatedField
 from rest_framework.serializers import ModelSerializer
+from rest_framework.validators import UniqueValidator
 from users.models import User, Location
-from users.validators import DateValidator
+from users.validators import DateValidator, RamblerValidation
 
 
 class LocationSerializer(ModelSerializer):
@@ -35,6 +36,7 @@ class UserCreateUpdateSerializer(ModelSerializer):
     )
     birth_date = serializers.DateField(required=True, validators=[DateValidator()])
     age = serializers.IntegerField(read_only=True)
+    email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all()), RamblerValidation()])
 
     def is_valid(self, *, raise_exception=False):
         self._locations = self.initial_data.pop("locations", [])

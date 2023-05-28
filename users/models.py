@@ -26,6 +26,7 @@ class User(AbstractUser):
     role = models.CharField(max_length=10, choices=UserRoles.choices, default=UserRoles.MEMBER)
     age = models.PositiveSmallIntegerField(default=0)
     locations = models.ManyToManyField(Location, default=None)
+    birth_date = models.DateField(null=True)
 
     def save(self, *args, **kwargs):
         self.set_password(raw_password=self.password)
