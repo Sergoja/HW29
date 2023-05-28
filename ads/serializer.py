@@ -1,3 +1,5 @@
+from ads.validators import NotPublished
+from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 from rest_framework.serializers import ModelSerializer
 from ads.models import Ad, Category, Selection
@@ -5,6 +7,8 @@ from users.models import User
 
 
 class AdSerializer(ModelSerializer):
+    is_published = serializers.BooleanField(validators=[NotPublished()])
+
     class Meta:
         fields = "__all__"
         model = Ad
