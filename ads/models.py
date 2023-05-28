@@ -1,4 +1,4 @@
-from ads.validators import min_lenght
+from ads.validators import min_lenght, check_name
 from django.db import models
 
 from users.models import User
@@ -22,7 +22,7 @@ class Category(models.Model):
 
 
 class Ad(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, validators=[check_name])
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
