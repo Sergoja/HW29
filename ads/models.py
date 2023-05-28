@@ -1,4 +1,5 @@
 from ads.validators import min_lenght, check_name
+from django.core.validators import MinValueValidator
 from django.db import models
 
 from users.models import User
@@ -26,7 +27,7 @@ class Ad(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    price = models.PositiveIntegerField()
+    price = models.PositiveIntegerField(validators=[MinValueValidator(0)])
     image = models.ImageField(upload_to="ad_images", null=True, blank=True)
     is_published = models.BooleanField()
 
