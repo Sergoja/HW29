@@ -29,12 +29,14 @@ class AdDetailSerializer(ModelSerializer):
 
 
 class CategorySerializer(ModelSerializer):
+
     class Meta:
         fields = "__all__"
         model = Category
 
 
 class SelectionSerializer(ModelSerializer):
+
     class Meta:
         model = Selection
         fields = '__all__'

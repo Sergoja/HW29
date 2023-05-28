@@ -1,3 +1,4 @@
+from ads.validators import min_lenght
 from django.db import models
 
 from users.models import User
@@ -5,6 +6,12 @@ from users.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
+    slug = models.CharField(
+        null=True,
+        max_length=10,
+        unique=True,
+        validators=[min_lenght]
+    )
 
     class Meta:
         verbose_name = "Категория"
