@@ -1,24 +1,17 @@
+import factory
 import pytest
-from ads.serializer import AdListSerializer
-from tests.factories import AdFactory
+from ads.serializer import AdListSerializer, AdDetailSerializer
+from tests.factories import AdFactory, UserFactory, CategoryFactory
 
 
 @pytest.mark.django_db
-def test_ad_retrieve(client, ad, admin_token):
-    expected_response = {
-        "id": ad.pk,
-        "is_published": False,
-        "name": "some publication",
-        "description": "",
-        "price": 500,
-        "image": None,
-        "author": ad.author_id,
-        "category": ad.category_id
-    }
+def test_ad_retrieve(client, admin_token):
+    ad = AdFactory.create()
     response = client.get(
         f"/ad/{ad.pk}/",
-        HTTP_AUTHORIZATION=f"Token {admin_token}"
+        content_type='application/json',
+        HTTP_AUTHORIZATION=f"Bearer {admin_token}"
     )
 
     assert response.status_code == 200
-    assert response.data == expected_response
+    assert response.data == AdDetailSerializer(ad).data

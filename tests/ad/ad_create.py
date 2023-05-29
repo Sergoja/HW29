@@ -1,10 +1,8 @@
 import pytest
-from ads.serializer import AdListSerializer
-from tests.factories import AdFactory
 
 
 @pytest.mark.django_db
-def test_ad_create(client):
+def test_ad_create(client, user, category):
     expected_response = {
         "id": 1,
         "is_published": False,
@@ -12,21 +10,20 @@ def test_ad_create(client):
         "description": "",
         "price": 500,
         "image": None,
-        "author": 1,
-        "category": 1
+        "author": user.pk,
+        "category": category.pk
     }
 
     data = {
         "is_published": False,
         "name": "some publication",
         "price": 500,
-        "author": 1,
-        "category": 1
+        "author": user.pk,
+        "category": category.pk
     }
     response = client.post(
         "/ad/",
-        data,
-        content_type='application/json'
+        data=data
     )
 
     assert response.status_code == 201
